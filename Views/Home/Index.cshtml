@@ -35,15 +35,19 @@
         }
 
         </div>
-            <div class="comment">
+            <div class="comments">
         @foreach (var comment in message.Comments){
+            <div class="onecomment">
+                @if (comment.Author.UserId==userId){
+                    <a href="/deletecomment/@comment.CommentId">
+                    <button class="delete">X</button>
+                    </a>
+                }
+                <div>
                 <h5>@comment.Author.FirstName @comment.Author.LastName - @comment.CreatedAt</h5>
                 <p>@comment.CommentText</p>
-                @if (message.Author.UserId==userId){
-            <a href="/deletecomment/@comment.CommentId">
-            <button class="delete">DELETE COMMENT</button>
-            </a>
-        }
+                </div>
+            </div>
         }
         @{ViewData["MessageId"]=message.MessageId;}
         <partial name="CommentPartial" view-data="ViewData"/>
