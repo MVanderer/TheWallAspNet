@@ -1,0 +1,11 @@
+@model TheWall.Models.Login
+<h2>Log In</h2>
+<form asp-controller="Home" asp-action="Login" method="POST">
+    <label asp-for="LoginEmail"></label>
+    <input asp-for="LoginEmail">
+    <span asp-validation-for="LoginEmail"></span>
+    <label asp-for="LoginPassword"></label>
+    <input asp-for="LoginPassword">
+    <span asp-validation-for="LoginPassword"></span>
+    <button>Log In</button>
+</form>

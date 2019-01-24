@@ -1,0 +1,11 @@
+@model TheWall.Models.Comment
+<h5>Make a comment</h5>
+@{ int mesId = (int)ViewData["MessageId"];}
+
+<form asp-controller="Home" asp-action="NewComment" method="POST">
+    <label asp-for="CommentText"></label>
+    <textarea asp-for="CommentText"></textarea>
+    <span asp-validation-for="CommentText"></span>
+    <input asp-for="MessageId" type="hidden" value=@mesId>
+    <button>Comment</button>
+</form>

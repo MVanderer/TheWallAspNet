@@ -1,0 +1,52 @@
+@{
+    ViewData["Title"] = "THE WALL";
+}
+@using Microsoft.AspNetCore.Http
+@using TheWall.Models
+@model Message
+@{string userName = @Context.Session.GetString("LoggedInUserName");}
+@{int userId = (int)@Context.Session.GetInt32 ("LoggedInUserID");}
+
+<div class="navbar">
+    <h1>CodingDojo Wall</h1>
+    <div>
+        <h3>Welcome, @userName</h3>
+        <a href="/logout">Log off</a>
+    </div>
+</div>
+<div class="wall">
+    <form asp-controller="Home" asp-action="NewMessage" method="POST" class="messageForm">
+        <div>
+            <label asp-for="MessageText"></label>
+            <textarea asp-for="MessageText"></textarea>
+            <span asp-validation-for="MessageText"></span>
+            <button>Post a message</button>
+        </div>
+    </form>
+    @foreach (var message in ViewBag.allMessages){
+        <div class="message">
+        <h5>@message.Author.FirstName @message.Author.LastName - @message.CreatedAt</h5>
+        <p>@message.MessageText</p>
+
+        @if (message.Author.UserId==userId){
+            <a href="/deletemessage/@message.MessageId">
+            <button class="delete">DELETE MESSAGE</button>
+            </a>
+        }
+
+        </div>
+            <div class="comment">
+        @foreach (var comment in message.Comments){
+                <h5>@comment.Author.FirstName @comment.Author.LastName - @comment.CreatedAt</h5>
+                <p>@comment.CommentText</p>
+                @if (message.Author.UserId==userId){
+            <a href="/deletecomment/@comment.CommentId">
+            <button class="delete">DELETE COMMENT</button>
+            </a>
+        }
+        }
+        @{ViewData["MessageId"]=message.MessageId;}
+        <partial name="CommentPartial" view-data="ViewData"/>
+            </div>
+    }
+</div>
